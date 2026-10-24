@@ -19,15 +19,17 @@ def send_records(topic, records, delay=0):
 
 
 if __name__ == "__main__":
-    # abhi testing ke liye sirf pehle 1000 records bhej rahe hain
-    orders = loader.load_orders()[:1000]
-    customers = loader.load_customers()
-    products = loader.load_products()
+    # pehle 1000-1000 records bhej chuke hain, ab baaki bhejte hain
+    orders = loader.load_orders()[1000:]
+    customers = loader.load_customers()[1000:]
+    products = loader.load_products()[1000:]
 
-    customer_ids = [c["customer_id"] for c in customers]
-    clicks = generator.make_clicks(customer_ids, 1000)
+    all_customer_ids = [c["customer_id"] for c in loader.load_customers()]
+    clicks = generator.make_clicks(all_customer_ids, 20000)
 
-    send_records("customers", customers[:1000])
-    send_records("products", products[:1000])
-    send_records("orders", orders, delay=0.01)
-    send_records("clickstream", clicks, delay=0.01)
+    delay = 0   # 0 matlab sabse tez, stream dheemi karni ho toh 0.001 jaisa daalo
+
+    send_records("customers", customers, delay)
+    send_records("products", products, delay)
+    send_records("orders", orders, delay)
+    send_records("clickstream", clicks, delay)
