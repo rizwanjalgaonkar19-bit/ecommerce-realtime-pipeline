@@ -137,6 +137,14 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 - In all 9 runs, consumed = size, valid = size - 1, and Spark rows = valid. Nothing was lost or duplicated between Kafka, the validator and Spark.
 - Speed varied a lot between runs (for example, consume + validate at 100,000 orders: 6,575 to 20,661 records/s), so only ranges are reported.
 - Spark job time was 7.5 to 23.2 s for all sizes, so at this scale it is dominated by fixed overhead, not data volume. These numbers do not show how Spark scales.
+## Security notes
+
+- No passwords, tokens or keys are stored in the code. Settings (Kafka address, data folders) come from environment variables (`config/settings.py`). If cloud keys are ever used, they must come from the environment, never from files in the repository.
+- `.gitignore` and `.dockerignore` keep the virtual environment, the dataset, quarantine files, checkpoints and logs out of git and out of the Docker image.
+- The tracked files were scanned with `git grep` for password, secret, token and key words. Only the name of a Spark library matched.
+- Kafka runs without authentication or encryption. This is fine for a single local machine, but a real deployment would need TLS, SASL logins and access rules.
+- The Docker image does not create a non-root user, so the containers run as root. A production image should not do this.
+- The dataset is anonymized, but the license on Kaggle still applies.
 
 ## Limitations
 
