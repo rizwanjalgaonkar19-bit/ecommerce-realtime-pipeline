@@ -1,0 +1,19 @@
+﻿NAME                             READY   STATUS      RESTARTS   AGE
+pod/dashboard-5c5f4fb948-2gld4   1/1     Running     0          10m
+pod/kafka-bbc775d98-nl48t        1/1     Running     0          22m
+pod/producer-d2qwz               0/1     Completed   0          14m
+pod/spark-qbpwt                  0/1     Completed   0          13m
+pod/validator-d29x9              0/1     Completed   0          13m
+
+NAME                  STATUS     COMPLETIONS   DURATION   AGE
+job.batch/producer    Complete   1/1           24s        14m
+job.batch/spark       Complete   1/1           44s        13m
+job.batch/validator   Complete   1/1           26s        13m
+
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)     AGE
+service/dashboard    ClusterIP   10.102.229.49    <none>        8501/TCP    10m
+service/kafka        ClusterIP   10.101.230.217   <none>        19092/TCP   22m
+service/kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP     33m
+
+NAME                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/pipeline-data   Bound    pvc-adbbc616-4caa-4e92-adb7-2c2ba5c1efff   2Gi        RWO            hostpath       <unset>                 22m
