@@ -1,12 +1,13 @@
 import json
 from kafka import KafkaConsumer
 from src import validator, quarantine, metrics
+from config import settings
 
 topics = ["orders", "customers", "products", "clickstream"]
 
 consumer = KafkaConsumer(
     *topics,
-    bootstrap_servers="localhost:9092",
+     bootstrap_servers=settings.kafka_server,
     auto_offset_reset="earliest",
     group_id=None,
     value_deserializer=lambda x: json.loads(x.decode("utf-8")),

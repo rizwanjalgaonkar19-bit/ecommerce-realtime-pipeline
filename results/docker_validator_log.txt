@@ -1,0 +1,10 @@
+﻿validator-1  | /app/src/stream_validator.py:8: DeprecationWarning: value_deserializer does not implement kafka.serializer.Deserializer
+validator-1  |   consumer = KafkaConsumer(
+validator-1  | ---- data quality metrics ----
+validator-1  | total_records : 255817
+validator-1  | valid_records : 255205
+validator-1  | invalid_records : 612
+validator-1  | duplicate_records : 0
+validator-1  | validation_rate : 99.76 %
+validator-1  | error counts    : {'missing': 612}
+validator-1  | records/second  : 9678.3

@@ -4,8 +4,10 @@ import duckdb
 import pandas as pd
 import streamlit as st
 
-data_folder = "C:/pipeline-data/"
-quarantine_folder = "data/quarantine/"
+from config import settings
+
+data_folder = settings.data_folder
+quarantine_folder = settings.quarantine_folder
 
 st.set_page_config(page_title="E-Commerce Pipeline", layout="wide")
 

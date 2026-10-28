@@ -2,9 +2,10 @@ import json
 import time
 from kafka import KafkaProducer
 from src import loader, generator
+from config import settings
 
 producer = KafkaProducer(
-    bootstrap_servers="localhost:9092",
+    bootstrap_servers=settings.kafka_server,
     value_serializer=lambda x: json.dumps(x).encode("utf-8"),
 )
 
@@ -19,15 +20,15 @@ def send_records(topic, records, delay=0):
 
 
 if __name__ == "__main__":
-    # pehle 1000-1000 records bhej chuke hain, ab baaki bhejte hain
-    orders = loader.load_orders()[1000:]
-    customers = loader.load_customers()[1000:]
-    products = loader.load_products()[1000:]
+    # poora dataset bhejta hai (naye, khaali Kafka ke liye)
+    orders = loader.load_orders()
+    customers = loader.load_customers()
+    products = loader.load_products()
 
-    all_customer_ids = [c["customer_id"] for c in loader.load_customers()]
-    clicks = generator.make_clicks(all_customer_ids, 20000)
+    customer_ids = [c["customer_id"] for c in customers]
+    clicks = generator.make_clicks(customer_ids, 21000)
 
-    delay = 0   # 0 matlab sabse tez, stream dheemi karni ho toh 0.001 jaisa daalo
+    delay = 0   # 0 matlab sabse tez
 
     send_records("customers", customers, delay)
     send_records("products", products, delay)

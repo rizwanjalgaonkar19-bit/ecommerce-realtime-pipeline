@@ -92,6 +92,17 @@ python -m src.fault_test            # fault injection test
 python -m src.anomaly_detector      # Isolation Forest experiment
 python -m src.benchmark             # benchmark (needs Kafka running, charger plugged in)
 ```
+## Run with Docker
+
+Needs Docker Desktop and the Olist CSV files in `data/raw/` (not in git).
+
+```
+docker compose up --build
+```
+
+This starts Kafka, replays the dataset (producer), runs the validator and Spark Streaming, and then starts the dashboard at http://localhost:8501. Invalid records are written to `data/quarantine/`. Spark output stays in a Docker volume (`pipeline-data`). To remove everything: `docker compose down -v`. Delete `data/quarantine/*.jsonl` before a fresh run, otherwise the quarantine lines are written twice.
+
+Result of one Docker run (logs in `results/docker_*_log.txt`): the producer sent 255,817 records, the validator found 255,205 valid and 612 invalid (99.76%), Spark finished with exit code 0, and the dashboard showed the same numbers as the local run (98,204 orders, 13,496,273 BRL). Consume + validate speed in this single run was 9,678 records/s.
 
 ## Results (measured on the author's laptop)
 
@@ -137,7 +148,7 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 
 ## Pending
 
-Docker, Kubernetes, AWS S3 and CI/CD are not done yet. This section will be updated.
+Kafka, producer, validator, Spark and the dashboard run in Docker. Kubernetes, AWS S3 and CI/CD are not done yet. This section will be updated.
 
 ## AI assistance
 

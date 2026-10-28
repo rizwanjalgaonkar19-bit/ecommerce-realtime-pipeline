@@ -1,0 +1,82 @@
+﻿spark-1  | /usr/local/lib/python3.11/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+spark-1  | :: loading settings :: url = jar:file:/usr/local/lib/python3.11/site-packages/pyspark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+spark-1  | Ivy Default Cache set to: /root/.ivy2/cache
+spark-1  | The jars for the packages stored in: /root/.ivy2/jars
+spark-1  | org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+spark-1  | :: resolving dependencies :: org.apache.spark#spark-submit-parent-96fbbecf-2899-44f9-9a0a-10fa5f32f5e7;1.0
+spark-1  | 	confs: [default]
+spark-1  | 	found org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 in central
+spark-1  | 	found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 in central
+spark-1  | 	found org.apache.kafka#kafka-clients;3.4.1 in central
+spark-1  | 	found org.lz4#lz4-java;1.8.0 in central
+spark-1  | 	found org.xerial.snappy#snappy-java;1.1.10.3 in central
+spark-1  | 	found org.slf4j#slf4j-api;2.0.7 in central
+spark-1  | 	found org.apache.hadoop#hadoop-client-runtime;3.3.4 in central
+spark-1  | 	found org.apache.hadoop#hadoop-client-api;3.3.4 in central
+spark-1  | 	found commons-logging#commons-logging;1.1.3 in central
+spark-1  | 	found com.google.code.findbugs#jsr305;3.0.0 in central
+spark-1  | 	found org.apache.commons#commons-pool2;2.11.1 in central
+spark-1  | downloading https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.5.1/spark-sql-kafka-0-10_2.12-3.5.1.jar ...
+spark-1  | 	[SUCCESSFUL ] org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1!spark-sql-kafka-0-10_2.12.jar (176ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.5.1/spark-token-provider-kafka-0-10_2.12-3.5.1.jar ...
+spark-1  | 	[SUCCESSFUL ] org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1!spark-token-provider-kafka-0-10_2.12.jar (96ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.4.1/kafka-clients-3.4.1.jar ...
+spark-1  | 	[SUCCESSFUL ] org.apache.kafka#kafka-clients;3.4.1!kafka-clients.jar (573ms)
+spark-1  | downloading https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.jar ...
+spark-1  | 	[SUCCESSFUL ] com.google.code.findbugs#jsr305;3.0.0!jsr305.jar (118ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar ...
+spark-1  | 	[SUCCESSFUL ] org.apache.commons#commons-pool2;2.11.1!commons-pool2.jar (111ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-runtime/3.3.4/hadoop-client-runtime-3.3.4.jar ...
+spark-1  | 	[SUCCESSFUL ] org.apache.hadoop#hadoop-client-runtime;3.3.4!hadoop-client-runtime.jar (2764ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/lz4/lz4-java/1.8.0/lz4-java-1.8.0.jar ...
+spark-1  | 	[SUCCESSFUL ] org.lz4#lz4-java;1.8.0!lz4-java.jar (141ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.10.3/snappy-java-1.1.10.3.jar ...
+spark-1  | 	[SUCCESSFUL ] org.xerial.snappy#snappy-java;1.1.10.3!snappy-java.jar(bundle) (228ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.7/slf4j-api-2.0.7.jar ...
+spark-1  | 	[SUCCESSFUL ] org.slf4j#slf4j-api;2.0.7!slf4j-api.jar (102ms)
+spark-1  | downloading https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-api/3.3.4/hadoop-client-api-3.3.4.jar ...
+spark-1  | 	[SUCCESSFUL ] org.apache.hadoop#hadoop-client-api;3.3.4!hadoop-client-api.jar (1497ms)
+spark-1  | downloading https://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar ...
+spark-1  | 	[SUCCESSFUL ] commons-logging#commons-logging;1.1.3!commons-logging.jar (111ms)
+spark-1  | :: resolution report :: resolve 7862ms :: artifacts dl 5936ms
+spark-1  | 	:: modules in use:
+spark-1  | 	com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+spark-1  | 	commons-logging#commons-logging;1.1.3 from central in [default]
+spark-1  | 	org.apache.commons#commons-pool2;2.11.1 from central in [default]
+spark-1  | 	org.apache.hadoop#hadoop-client-api;3.3.4 from central in [default]
+spark-1  | 	org.apache.hadoop#hadoop-client-runtime;3.3.4 from central in [default]
+spark-1  | 	org.apache.kafka#kafka-clients;3.4.1 from central in [default]
+spark-1  | 	org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.1 from central in [default]
+spark-1  | 	org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.1 from central in [default]
+spark-1  | 	org.lz4#lz4-java;1.8.0 from central in [default]
+spark-1  | 	org.slf4j#slf4j-api;2.0.7 from central in [default]
+spark-1  | 	org.xerial.snappy#snappy-java;1.1.10.3 from central in [default]
+spark-1  | 	---------------------------------------------------------------------
+spark-1  | 	|                  |            modules            ||   artifacts   |
+spark-1  | 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+spark-1  | 	---------------------------------------------------------------------
+spark-1  | 	|      default     |   11  |   11  |   11  |   0   ||   11  |   11  |
+spark-1  | 	---------------------------------------------------------------------
+spark-1  | :: retrieving :: org.apache.spark#spark-submit-parent-96fbbecf-2899-44f9-9a0a-10fa5f32f5e7
+spark-1  | 	confs: [default]
+spark-1  | 	11 artifacts copied, 0 already retrieved (56767kB/130ms)
+spark-1  | 26/10/28 05:41:54 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-1  | Setting default log level to "WARN".
+spark-1  | To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+spark-1  | 26/10/28 05:41:58 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN ResolveWriteToStream: spark.sql.adaptive.enabled is not supported in streaming DataFrames/Datasets and will be disabled.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | 26/10/28 05:41:59 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, enable.auto.commit, max.poll.records, auto.offset.reset]' were supplied but are not used yet.
+spark-1  | spark streaming khatam: 4 streams ke raw aur processed parquet likh diye

@@ -18,3 +18,66 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 1
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
+
+  producer:
+    build: .
+    image: ecommerce-pipeline
+    command: python -m src.producer
+    environment:
+      KAFKA_BOOTSTRAP: kafka:19092
+    volumes:
+      - ./data/raw:/app/data/raw:ro
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: "no"
+
+  validator:
+    image: ecommerce-pipeline
+    command: python -m src.stream_validator
+    environment:
+      KAFKA_BOOTSTRAP: kafka:19092
+    volumes:
+      - ./data/quarantine:/app/data/quarantine
+    depends_on:
+      producer:
+        condition: service_completed_successfully
+    restart: "no"
+
+  spark:
+    image: ecommerce-pipeline
+    command: python -m src.spark_streaming
+    environment:
+      KAFKA_BOOTSTRAP: kafka:19092
+      DATA_FOLDER: /pipeline-data/
+    volumes:
+      - pipeline-data:/pipeline-data
+    depends_on:
+      producer:
+        condition: service_completed_successfully
+    restart: "no"
+
+  dashboard:
+    image: ecommerce-pipeline
+    command: streamlit run src/dashboard.py --server.port=8501 --server.address=0.0.0.0 --server.headless=true
+    environment:
+      DATA_FOLDER: /pipeline-data/
+    ports:
+      - "8501:8501"
+    volumes:
+      - pipeline-data:/pipeline-data
+      - ./data/quarantine:/app/data/quarantine
+    depends_on:
+      validator:
+        condition: service_completed_successfully
+      spark:
+        condition: service_completed_successfully
+
+volumes:
+  pipeline-data:

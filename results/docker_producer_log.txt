@@ -1,0 +1,4 @@
+﻿producer-1  | customers - 99441 records sent
+producer-1  | products - 32951 records sent
+producer-1  | orders - 102425 records sent
+producer-1  | clickstream - 21000 records sent

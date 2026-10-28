@@ -1,15 +1,17 @@
 import os
 
-# windows ke liye settings
-os.environ["HADOOP_HOME"] = "C:\\hadoop"
-os.environ["PATH"] = "C:\\hadoop\\bin;" + os.environ["PATH"]
+# windows ke liye settings (linux container mein ye lines skip ho jaati hain)
+if os.name == "nt":
+ os.environ["HADOOP_HOME"] = "C:\\hadoop"
+ os.environ["PATH"] = "C:\\hadoop\\bin;" + os.environ["PATH"]
 os.environ["SPARK_LOCAL_IP"] = "127.0.0.1"
 
+from config import settings
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, from_json, to_timestamp, to_date
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType
 
-output_folder = "C:/pipeline-data/"
+output_folder = settings.data_folder
 
 spark = (
     SparkSession.builder
@@ -61,7 +63,7 @@ click_schema = StructType([
 def read_topic(topic, schema):
     kafka_data = (
         spark.readStream.format("kafka")
-        .option("kafka.bootstrap.servers", "localhost:9092")
+        .option("kafka.bootstrap.servers", settings.kafka_server)
         .option("subscribe", topic)
         .option("startingOffsets", "earliest")
         .load()
