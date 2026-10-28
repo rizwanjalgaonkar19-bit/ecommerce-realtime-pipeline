@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: spark
+          image: ecommerce-pipeline
+          imagePullPolicy: Never
+          command: ["python", "-m", "src.spark_streaming"]
+          env:
+            - { name: KAFKA_BOOTSTRAP, value: "kafka:19092" }
+            - { name: DATA_FOLDER, value: "/pipeline-data/" }
+          volumeMounts:
+            - name: data
+              mountPath: /pipeline-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pipeline-data

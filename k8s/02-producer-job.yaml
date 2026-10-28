@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: producer
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: producer
+          image: ecommerce-pipeline
+          imagePullPolicy: Never
+          command: ["python", "-m", "src.producer"]
+          env:
+            - { name: KAFKA_BOOTSTRAP, value: "kafka:19092" }
+          volumeMounts:
+            - name: raw-data
+              mountPath: /app/data/raw
+              readOnly: true
+      volumes:
+        - name: raw-data
+          hostPath:
+            path: /run/desktop/mnt/host/c/pipeline-raw
+            type: Directory
