@@ -1,4 +1,6 @@
 pandas
+numpy
+scikit-learn
 kafka-python
 pyspark==3.5.1
 pyarrow
