@@ -1,4 +1,0 @@
-﻿customers - 99441 records sent
-products - 32951 records sent
-orders - 102425 records sent
-clickstream - 21000 records sent
