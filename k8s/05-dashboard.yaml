@@ -12,7 +12,7 @@ spec:
       labels:
         app: dashboard
     spec:
-      containers:
+     containers:
         - name: dashboard
           image: ecommerce-pipeline
           imagePullPolicy: Never
@@ -27,7 +27,7 @@ spec:
             - name: data
               mountPath: /app/data/quarantine
               subPath: quarantine
-      volumes:
+          volumes:
         - name: data
           persistentVolumeClaim:
             claimName: pipeline-data
