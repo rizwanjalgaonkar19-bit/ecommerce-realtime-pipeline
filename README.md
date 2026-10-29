@@ -166,9 +166,16 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 - In all 9 runs, consumed = size, valid = size - 1, and Spark rows = valid. Nothing was lost or duplicated between Kafka, the validator and Spark.
 - Speed varied a lot between runs (for example, consume + validate at 100,000 orders: 6,575 to 20,661 records/s), so only ranges are reported.
 - Spark job time was 7.5 to 23.2 s for all sizes, so at this scale it is dominated by fixed overhead, not data volume. These numbers do not show how Spark scales.
+
+**Benchmark v2** (one warm-up run, then 5 runs each for 10,000, 50,000 and 102,425 orders; `results/benchmark_results_v2.csv`)
+
+- In all 15 runs, consumed = size, valid = size - 1 and Spark rows = valid, so nothing was lost or duplicated.
+- Median producer speed was 10,365 / 12,155 / 11,476 records/s and median consume + validate speed was 18,258 / 16,589 / 16,891 records/s (10,000 / 50,000 / 102,425 orders). The slowest runs were about 4 times slower than the fastest, and in the three slowest runs the producer and the validator were both slow, so something affecting the whole machine or Kafka at that moment is likely, but this was not tested.
+- Median Spark job time was 7.0 / 8.1 / 12.1 s (min to max: 6.5-15.1, 7.4-9.9, 8.7-21.0 s). The ranges overlap and each size has only 5 runs, so this does not show how Spark scales. The first two runs at 10,000 orders were slower than the later ones even after the warm-up run.
+
 ## Security notes
 
-- No passwords, tokens or keys are stored in the code. Settings (Kafka address, data folders) come from environment variables (`config/settings.py`). If cloud keys are ever used, they must come from the environment, never from files in the repository.
+- No passwords, tokens or keys are stored in the code. Settings (Kafka address, data folders) come from environment variables (`config/settings.py`).
 - `.gitignore` and `.dockerignore` keep the virtual environment, the dataset, quarantine files, checkpoints and logs out of git and out of the Docker image.
 - The tracked files were scanned with `git grep` for password, secret, token and key words. Only the name of a Spark library matched.
 - Kafka runs without authentication or encryption. This is fine for a single local machine, but a real deployment would need TLS, SASL logins and access rules.
@@ -183,10 +190,8 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 - Anomaly detection is evaluated only on injected anomalies.
 - Benchmark has only 3 runs per size and high variance.
 
-## Pending
+## Limitations and future work
 
-AWS S3 upload and a cloud-managed Kafka or Kubernetes cluster are not done. The GitHub Actions workflow (`.github/workflows/tests.yml`) is written but has not run yet because the code has not been pushed to GitHub. This section will be updated.
-
-## AI assistance
-
-Claude (Anthropic) was used for guidance and for drafting code. All code was run and tested by the author on their own laptop.
+- **GitHub Actions:** the workflow in `.github/workflows/tests.yml` is written but has not run yet, because the code has not been pushed to GitHub.
+- **Real data and labels:** the data is replayed history, the clickstream is synthetic, and there are no fraud labels, so the anomaly detection result only shows that injected outliers can be found.
+- **Scale:** one Kafka broker with one partition, and Spark in local mode. Running with more partitions and on a multi-node cluster was not tested.
