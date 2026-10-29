@@ -189,4 +189,4 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 - The clickstream is synthetic.
 - There are no fraud labels, so the anomaly detection is evaluated only on injected anomalies.
 - The benchmark has 3 runs per size in the first version and 5 runs per size in the second, on one laptop, with large run-to-run variation, so the numbers are only indicative.
-- The GitHub Actions workflow in `.github/workflows/tests.yml` is written but has not run yet, because the code has not been pushed to GitHub.
+- The GitHub Actions workflow in `.github/workflows/tests.yml` ran once on GitHub (run #1, commit 04ad771, 10 s) and passed. It only compiles the code and runs the validator unit tests. It does not run Kafka, Spark, Docker or Kubernetes.
