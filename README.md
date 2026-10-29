@@ -104,6 +104,35 @@ This starts Kafka, replays the dataset (producer), runs the validator and Spark 
 
 Result of one Docker run (logs in `results/docker_*_log.txt`): the producer sent 255,817 records, the validator found 255,205 valid and 612 invalid (99.76%), Spark finished with exit code 0, and the dashboard showed the same numbers as the local run (98,204 orders, 13,496,273 BRL). Consume + validate speed in this single run was 9,678 records/s.
 
+## Run on Kubernetes (Docker Desktop)
+
+Needs Docker Desktop with Kubernetes enabled, the image built with `docker build -t ecommerce-pipeline .`, and the five Olist CSV files copied to `C:\pipeline-raw` (the producer job reads them through a `hostPath` volume). Manifests are in `k8s/`.
+
+```
+kubectl apply -f k8s\00-storage.yaml -f k8s\01-kafka.yaml
+kubectl rollout status deployment/kafka --timeout=180s
+kubectl apply -f k8s\02-producer-job.yaml
+kubectl wait --for=condition=complete job/producer --timeout=600s
+kubectl apply -f k8s\03-validator-job.yaml -f k8s\04-spark-job.yaml
+kubectl wait --for=condition=complete job/validator job/spark --timeout=900s
+kubectl apply -f k8s\05-dashboard.yaml
+kubectl port-forward service/dashboard 8501:8501
+```
+
+Kafka and the dashboard are Deployments. The producer, validator and Spark steps are Jobs. Kafka has its own volume (`kafka-data`), and the validator, Spark and dashboard share another one (`pipeline-data`). Saved logs are in `results/k8s_*`.
+
+Result of one run: the validator printed the same numbers as the local and Docker runs (255,817 records, 255,205 valid, 612 invalid, 99.76%). The Job durations were 24 s (producer), 26 s (validator) and 44 s (Spark). These are single-run times, not benchmarks.
+
+Failure tests (`results/k8s_failure_test.txt`):
+
+- Deleting the dashboard pod: Kubernetes created a new pod in about 2 seconds and it showed `1/1 Running` after 22 seconds. No readiness check was configured, so this does not prove the page was serving.
+- Deleting the Kafka pod while Kafka had no volume: the topics and all data were lost. The Spark Parquet files on the other volume stayed.
+- After adding the `kafka-data` volume, the `orders` offset was 102,425 before and after deleting the Kafka pod, and all four topics were still listed. Only the `orders` offset and the topic list were checked.
+- The first version of this test used a wrong Kafka command (`kafka.tools.GetOffsetShell`), so those lines in the file show errors. The test was repeated with `kafka-get-offsets.sh`.
+- Job logs are kept only inside the cluster. After Docker Desktop restarted, the logs of finished Jobs were gone, so they were saved to files right after each run.
+
+Limits: one node, volumes stored on the laptop disk (they protect against a pod failing, not against the laptop failing), no authentication or encryption, no resource limits, and the image is built locally (`imagePullPolicy: Never`).
+
 ## Results (measured on the author's laptop)
 
 Laptop: ASUS Vivobook 16X, Intel Core i5-13420H, about 16 GB RAM, Windows.
@@ -156,7 +185,7 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 
 ## Pending
 
-Kafka, producer, validator, Spark and the dashboard run in Docker. Kubernetes, AWS S3 and CI/CD are not done yet. This section will be updated.
+AWS S3 upload and a cloud-managed Kafka or Kubernetes cluster are not done. The GitHub Actions workflow (`.github/workflows/tests.yml`) is written but has not run yet because the code has not been pushed to GitHub. This section will be updated.
 
 ## AI assistance
 
