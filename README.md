@@ -182,16 +182,11 @@ The model finds large, obvious outliers but is weak on mild ones. Precision and 
 - The Docker image does not create a non-root user, so the containers run as root. A production image should not do this.
 - The dataset is anonymized, but the license on Kaggle still applies.
 
-## Limitations
-
-- One machine, one Kafka broker, one partition, Spark in local mode. Results do not describe cluster performance.
-- Replay of historical data, not a live feed.
-- Clickstream is synthetic.
-- Anomaly detection is evaluated only on injected anomalies.
-- Benchmark has only 3 runs per size and high variance.
-
 ## Limitations and future work
 
-- **GitHub Actions:** the workflow in `.github/workflows/tests.yml` is written but has not run yet, because the code has not been pushed to GitHub.
-- **Real data and labels:** the data is replayed history, the clickstream is synthetic, and there are no fraud labels, so the anomaly detection result only shows that injected outliers can be found.
-- **Scale:** one Kafka broker with one partition, and Spark in local mode. Running with more partitions and on a multi-node cluster was not tested.
+- One machine, one Kafka broker with one partition, and Spark in local mode (also run on a one-node local Kubernetes cluster). Results do not describe cluster performance. Running with more partitions and on a multi-node cluster was not tested.
+- The data is replayed history, not a live feed.
+- The clickstream is synthetic.
+- There are no fraud labels, so the anomaly detection is evaluated only on injected anomalies.
+- The benchmark has 3 runs per size in the first version and 5 runs per size in the second, on one laptop, with large run-to-run variation, so the numbers are only indicative.
+- The GitHub Actions workflow in `.github/workflows/tests.yml` is written but has not run yet, because the code has not been pushed to GitHub.
