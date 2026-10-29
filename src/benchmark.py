@@ -10,8 +10,8 @@ import pandas as pd
 from kafka import KafkaProducer, KafkaConsumer
 from src import loader, validator
 
-sizes = [10000, 50000, 100000]
-runs = 3
+sizes = [10000, 50000, 102425]
+runs = 5
 
 producer = KafkaProducer(
     bootstrap_servers="localhost:9092",
@@ -77,6 +77,12 @@ if __name__ == "__main__":
     all_orders = loader.load_orders()
     print("python", platform.python_version(), "| cpu cores:", os.cpu_count())
 
+    print("warm-up run (not counted)")
+    warm_topic = "bench_warmup_" + str(int(time.time()))
+    produce(warm_topic, all_orders[:10000])
+    validate_topic(warm_topic)
+    run_spark(warm_topic)
+
     results = []
     for size in sizes:
         records = all_orders[:size]
@@ -96,14 +102,13 @@ if __name__ == "__main__":
                 "validator_rec_per_sec": round(total / validate_seconds),
                 "spark_seconds": round(spark_seconds, 2) if spark_seconds else None,
                 "spark_rows": spark_rows,
-                "spark_rec_per_sec": round(size / spark_seconds) if spark_seconds else None,
             }
             results.append(row)
             print(row)
 
     df = pd.DataFrame(results)
-    df.to_csv("results/benchmark_results.csv", index=False)
+    df.to_csv("results/benchmark_results_v2.csv", index=False)
 
-    print("\n---- summary (mean and std of 3 runs) ----")
-    columns = ["producer_rec_per_sec", "validator_rec_per_sec", "spark_rec_per_sec"]
-    print(df.groupby("size")[columns].agg(["mean", "std"]).round(0).to_string())
+    print("\n---- summary (median, min, max of 5 runs) ----")
+    columns = ["producer_rec_per_sec", "validator_rec_per_sec", "spark_seconds"]
+    print(df.groupby("size")[columns].agg(["median", "min", "max"]).round(1).to_string())
